@@ -1,10 +1,6 @@
-
-import React, { useState } from 'react'
-// Ajoute cette ligne quelque part dans ton composant
-const _reactRef = React
-
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Minus, Plus, Trash2, ShoppingBag, CreditCard, MapPin, Clock, MessageCircle } from 'lucide-react'
+import { Minus, Plus, Trash2, ShoppingBag, MessageCircle } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
@@ -13,16 +9,10 @@ import WhatsAppOrder from '../components/WhatsAppOrder'
 const Order = () => {
   const { cartItems, updateQuantity, removeFromCart, total, clearCart } = useCart()
   const { user } = useAuth()
-  const [orderType, setOrderType] = useState('pickup')
-  const [paymentMethod, setPaymentMethod] = useState('card')
   const [orderNote, setOrderNote] = useState('')
-  const [isProcessing, setIsProcessing] = useState(false)
   const [showWhatsAppOrder, setShowWhatsAppOrder] = useState(false)
 
-  const deliveryFee = orderType === 'delivery' ? 3.50 : 0
-  const finalTotal = total + deliveryFee
-
-  const handleQuantityChange = (id, newQuantity) => {
+  const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity < 1) {
       removeFromCart(id)
       return
@@ -36,21 +26,7 @@ const Order = () => {
       return
     }
 
-    // Si WhatsApp est sélectionné, afficher le formulaire WhatsApp
-    if (paymentMethod === 'whatsapp') {
-      setShowWhatsAppOrder(true)
-      return
-    }
-
-    // Pour les autres méthodes de paiement
-    setIsProcessing(true)
-
-    // Simulate order processing
-    await new Promise(resolve => setTimeout(resolve, 2000))
-
-    alert('Commande confirmée ! Vous recevrez un email de confirmation.')
-    clearCart()
-    setIsProcessing(false)
+    setShowWhatsAppOrder(true)
   }
 
   const handleWhatsAppOrderSent = () => {
@@ -172,7 +148,7 @@ const Order = () => {
 
             {/* Order Summary */}
             <div className="space-y-6">
-              {/* Order Type */}
+              {/* Payment Method - WhatsApp uniquement */}
               <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -180,74 +156,11 @@ const Order = () => {
                   className="bg-white rounded-2xl shadow-lg p-6"
               >
                 <h3 className="text-xl font-bold font-serif text-brown mb-4">
-                  Mode de récupération
-                </h3>
-                <div className="space-y-3">
-                  <button
-                      onClick={() => setOrderType('pickup')}
-                      className={`w-full flex items-center p-4 rounded-xl border-2 transition-all ${
-                          orderType === 'pickup'
-                              ? 'border-brown bg-cream text-brown'
-                              : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                  >
-                    <MapPin size={20} className="mr-3" />
-                    <div className="text-left">
-                      <div className="font-semibold">Click & Collect</div>
-                      <div className="text-sm text-gray-600">Retrait gratuit en magasin</div>
-                    </div>
-                  </button>
-                  <button
-                      onClick={() => setOrderType('delivery')}
-                      className={`w-full flex items-center p-4 rounded-xl border-2 transition-all ${
-                          orderType === 'delivery'
-                              ? 'border-brown bg-cream text-brown'
-                              : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                  >
-                    <Clock size={20} className="mr-3" />
-                    <div className="text-left">
-                      <div className="font-semibold">Livraison</div>
-                      <div className="text-sm text-gray-600">Livraison sous 30-45 min</div>
-                    </div>
-                  </button>
-                </div>
-              </motion.div>
-
-              {/* Payment Method */}
-              <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="bg-white rounded-2xl shadow-lg p-6"
-              >
-                <h3 className="text-xl font-bold font-serif text-brown mb-4">
                   Mode de paiement
                 </h3>
                 <div className="space-y-3">
                   <button
-                      onClick={() => setPaymentMethod('card')}
-                      className={`w-full flex items-center p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'card'
-                              ? 'border-brown bg-cream text-brown'
-                              : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                  >
-                    <CreditCard size={20} className="mr-3" />
-                    <div className="text-left">
-                      <div className="font-semibold">Paiement en ligne</div>
-                      <div className="text-sm text-gray-600">Carte bancaire sécurisée</div>
-                    </div>
-                  </button>
-
-                  {/* NOUVELLE OPTION WHATSAPP */}
-                  <button
-                      onClick={() => setPaymentMethod('whatsapp')}
-                      className={`w-full flex items-center p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'whatsapp'
-                              ? 'border-green-600 bg-green-50 text-green-700'
-                              : 'border-gray-200 hover:border-gray-300'
-                      }`}
+                      className="w-full flex items-center p-4 rounded-xl border-2 border-green-600 bg-green-50 text-green-700 transition-all transform hover:scale-105"
                   >
                     <MessageCircle size={20} className="mr-3" />
                     <div className="text-left">
@@ -255,23 +168,6 @@ const Order = () => {
                       <div className="text-sm text-gray-600">Simple et rapide</div>
                     </div>
                   </button>
-
-                  {orderType === 'pickup' && (
-                      <button
-                          onClick={() => setPaymentMethod('cash')}
-                          className={`w-full flex items-center p-4 rounded-xl border-2 transition-all ${
-                              paymentMethod === 'cash'
-                                  ? 'border-brown bg-cream text-brown'
-                                  : 'border-gray-200 hover:border-gray-300'
-                          }`}
-                      >
-                        <span className="text-xl mr-3">💰</span>
-                        <div className="text-left">
-                          <div className="font-semibold">Paiement sur place</div>
-                          <div className="text-sm text-gray-600">Espèces ou carte</div>
-                        </div>
-                      </button>
-                  )}
                 </div>
               </motion.div>
 
@@ -279,7 +175,7 @@ const Order = () => {
               <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
                   className="bg-white rounded-2xl shadow-lg p-6"
               >
                 <h3 className="text-xl font-bold font-serif text-brown mb-4">
@@ -298,7 +194,7 @@ const Order = () => {
               <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
                   className="bg-white rounded-2xl shadow-lg p-6"
               >
                 <h3 className="text-xl font-bold font-serif text-brown mb-4">
@@ -309,16 +205,10 @@ const Order = () => {
                     <span className="text-gray-600">Sous-total</span>
                     <span className="font-semibold">{total.toFixed(2)} FCFA</span>
                   </div>
-                  {orderType === 'delivery' && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Livraison</span>
-                        <span className="font-semibold">{deliveryFee.toFixed(2)} FCFA</span>
-                      </div>
-                  )}
                   <div className="border-t pt-3">
                     <div className="flex justify-between text-xl font-bold text-brown">
                       <span>Total</span>
-                      <span>{finalTotal.toFixed(2)} FCFA</span>
+                      <span>{total.toFixed(2)} FCFA</span>
                     </div>
                   </div>
                 </div>
@@ -326,26 +216,14 @@ const Order = () => {
                 {user ? (
                     <button
                         onClick={handlePlaceOrder}
-                        disabled={isProcessing}
-                        className={`w-full mt-6 py-4 rounded-xl font-semibold text-lg transition-all ${
-                            isProcessing
-                                ? 'bg-gray-400 text-white cursor-not-allowed'
-                                : paymentMethod === 'whatsapp'
-                                    ? 'bg-green-600 hover:bg-green-700 text-white transform hover:scale-105'
-                                    : 'bg-brown hover:bg-warm-brown text-white transform hover:scale-105'
-                        }`}
+                        className="w-full mt-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold text-lg transition-all transform hover:scale-105"
                     >
-                      {isProcessing
-                          ? 'Traitement en cours...'
-                          : paymentMethod === 'whatsapp'
-                              ? '📱 Commander via WhatsApp'
-                              : 'Confirmer la commande'
-                      }
+                      📱 Commander via WhatsApp
                     </button>
                 ) : (
                     <Link
                         to="/connexion"
-                        className="block w-full mt-6 py-4 bg-brown hover:bg-warm-brown text-white rounded-xl font-semibold text-lg text-center transition-all transform hover:scale-105"
+                        className="block w-full mt-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold text-lg text-center transition-all transform hover:scale-105"
                     >
                       Se connecter pour commander
                     </Link>

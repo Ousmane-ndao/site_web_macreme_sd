@@ -424,7 +424,7 @@ const Reservation: React.FC = () => {
                     <div className="text-gray-600 text-sm space-y-1">
                       <div>+221 76 303 44 01 (WhatsApp)</div>
                       <div>77 393 20 69 (Appel)</div>
-                      <div>ousmane@gmail.com</div>
+                      <div>ousmanendao1124@gmail.com</div>
                     </div>
                   </div>
                 </div>
@@ -442,7 +442,6 @@ const Reservation: React.FC = () => {
                 <div className="space-y-3 text-sm text-gray-600">
                   <p>• Confirmation immédiate par WhatsApp</p>
                   <p>• Rappel 24h avant votre réservation</p>
-                  <p>• Tables maintenues 15 minutes</p>
                   <p>• Annulation possible jusqu'à 2h avant</p>
                   <p>• Adaptation aux régimes spéciaux</p>
                 </div>
