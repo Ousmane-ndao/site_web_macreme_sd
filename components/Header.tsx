@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, ShoppingCart, User, Phone, MapPin } from 'lucide-react'
+import { Menu, X, ShoppingCart, User, Phone, MapPin, Shield } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/AuthContext'
-
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -146,6 +145,21 @@ const Header: React.FC = () => {
                 <User size={24} />
               </Link>
 
+              {/* Admin Link - Visible seulement pour les admins */}
+              {user && user.role === 'admin' && (
+                  <Link
+                      to="/admin"
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors relative group"
+                      title="Tableau de bord administrateur"
+                  >
+                    <Shield size={20} />
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      Administration
+                    </div>
+                  </Link>
+              )}
+
               {/* Mobile menu button */}
               <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -177,6 +191,16 @@ const Header: React.FC = () => {
                         {item.name}
                       </Link>
                   ))}
+                  {/* Lien Admin dans le menu mobile */}
+                  {user && user.role === 'admin' && (
+                      <Link
+                          to="/admin"
+                          onClick={() => setIsMenuOpen(false)}
+                          className="block px-4 py-2 font-medium text-red-600 bg-white transition-colors"
+                      >
+                        🛃 Administration
+                      </Link>
+                  )}
                   <Link
                       to="/reservation"
                       onClick={() => setIsMenuOpen(false)}

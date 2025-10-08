@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { User, Mail, Phone, Gift, LogOut, Edit3, Save, X } from 'lucide-react'
+import { User, Mail, Phone, LogOut, Edit3, Save, X } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { Navigate } from 'react-router-dom'
 
@@ -34,8 +34,6 @@ const Profile: React.FC = () => {
       setLoading(true)
       // Simuler la mise à jour du profil
       await new Promise(resolve => setTimeout(resolve, 1000))
-
-
       // await api.updateProfile(editData);
 
       alert('Profil mis à jour avec succès!')
@@ -55,10 +53,6 @@ const Profile: React.FC = () => {
       phone: user.phone || ''
     })
     setIsEditing(false)
-  }
-
-  const getLoyaltyPoints = () => {
-    return user.loyaltyPoints || 0
   }
 
   return (
@@ -128,7 +122,9 @@ const Profile: React.FC = () => {
                       <input
                           type="text"
                           value={editData.name}
-                          onChange={(e) => setEditData(prev => ({ ...prev, name: e.target.value }))}
+                          onChange={(e) =>
+                              setEditData((prev) => ({ ...prev, name: e.target.value }))
+                          }
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown focus:border-transparent"
                           placeholder="Votre nom complet"
                       />
@@ -146,7 +142,9 @@ const Profile: React.FC = () => {
                       <input
                           type="email"
                           value={editData.email}
-                          onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
+                          onChange={(e) =>
+                              setEditData((prev) => ({ ...prev, email: e.target.value }))
+                          }
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown focus:border-transparent"
                           placeholder="votre@email.com"
                       />
@@ -164,36 +162,15 @@ const Profile: React.FC = () => {
                       <input
                           type="tel"
                           value={editData.phone}
-                          onChange={(e) => setEditData(prev => ({ ...prev, phone: e.target.value }))}
+                          onChange={(e) =>
+                              setEditData((prev) => ({ ...prev, phone: e.target.value }))
+                          }
                           placeholder="76 303 44 01"
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown focus:border-transparent"
                       />
                   ) : (
                       <p className="text-gray-700">{user.phone || 'Non renseigné'}</p>
                   )}
-                </div>
-              </div>
-
-              {/* Points de fidélité */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-brown flex items-center">
-                    <Gift size={18} className="mr-2" />
-                    Points de fidélité
-                  </h3>
-                  <span className="text-xl font-bold text-gold">{getLoyaltyPoints()}</span>
-                </div>
-                <div className="bg-cream p-3 rounded-lg">
-                  <p className="text-sm text-gray-600 mb-2 text-center">
-                    {getLoyaltyPoints() >= 250 ? 'Niveau maximum atteint !' :
-                        `Plus que ${250 - getLoyaltyPoints()} points pour le niveau suivant`}
-                  </p>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                        className="bg-gold h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${Math.min((getLoyaltyPoints() / 250) * 100, 100)}%` }}
-                    ></div>
-                  </div>
                 </div>
               </div>
 

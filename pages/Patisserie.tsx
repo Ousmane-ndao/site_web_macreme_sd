@@ -32,6 +32,18 @@ const Patisserie: React.FC = () => {
       inStock: true,
       weight: '350g'
     },
+    {
+      id: 'b3',
+      name: 'Pain aux Raisins',
+      description: 'Délicieuse pâte feuilletée garnie de raisins secs et de crème pâtissière maison.',
+      price: 1500,
+      image: '/images/Pain - Raisin.png',
+      category: 'brioches',
+      rating: 4.8,
+      inStock: true,
+      weight: '120g'
+    },
+
 
     {
       id: 'c3',

@@ -25,7 +25,6 @@ const Order = () => {
       alert('Veuillez vous connecter pour passer commande')
       return
     }
-
     setShowWhatsAppOrder(true)
   }
 
@@ -79,6 +78,8 @@ const Order = () => {
     )
   }
 
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+
   return (
       <div className="min-h-screen bg-cream py-16">
         <div className="container-max">
@@ -88,11 +89,9 @@ const Order = () => {
               transition={{ duration: 0.6 }}
               className="mb-8"
           >
-            <h1 className="text-4xl font-bold font-serif text-brown mb-2">
-              Votre Commande
-            </h1>
+            <h1 className="text-4xl font-bold font-serif text-brown mb-2">Votre Commande</h1>
             <p className="text-lg text-gray-600">
-              {cartItems.reduce((sum, item) => sum + item.quantity, 0)} article{cartItems.length > 1 ? 's' : ''} dans votre panier
+              {totalQuantity} article{totalQuantity > 1 ? 's' : ''} dans votre panier
             </p>
           </motion.div>
 
@@ -117,7 +116,7 @@ const Order = () => {
                         <h3 className="text-lg font-bold text-brown">{item.name}</h3>
                         <p className="text-sm text-gray-600 capitalize">{item.category}</p>
                         <p className="text-lg font-semibold text-brown">
-                          {item.price.toFixed(2)} FCFA
+                          {(Number(item.price) || 0).toFixed(2)} FCFA
                         </p>
                       </div>
                       <div className="flex items-center space-x-3">
@@ -155,9 +154,7 @@ const Order = () => {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="bg-white rounded-2xl shadow-lg p-6"
               >
-                <h3 className="text-xl font-bold font-serif text-brown mb-4">
-                  Mode de paiement
-                </h3>
+                <h3 className="text-xl font-bold font-serif text-brown mb-4">Mode de paiement</h3>
                 <div className="space-y-3">
                   <button
                       className="w-full flex items-center p-4 rounded-xl border-2 border-green-600 bg-green-50 text-green-700 transition-all transform hover:scale-105"
@@ -178,9 +175,7 @@ const Order = () => {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="bg-white rounded-2xl shadow-lg p-6"
               >
-                <h3 className="text-xl font-bold font-serif text-brown mb-4">
-                  Note de commande
-                </h3>
+                <h3 className="text-xl font-bold font-serif text-brown mb-4">Note de commande</h3>
                 <textarea
                     value={orderNote}
                     onChange={(e) => setOrderNote(e.target.value)}
@@ -197,18 +192,16 @@ const Order = () => {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="bg-white rounded-2xl shadow-lg p-6"
               >
-                <h3 className="text-xl font-bold font-serif text-brown mb-4">
-                  Récapitulatif
-                </h3>
+                <h3 className="text-xl font-bold font-serif text-brown mb-4">Récapitulatif</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Sous-total</span>
-                    <span className="font-semibold">{total.toFixed(2)} FCFA</span>
+                    <span className="font-semibold">{(Number(total) || 0).toFixed(2)} FCFA</span>
                   </div>
                   <div className="border-t pt-3">
                     <div className="flex justify-between text-xl font-bold text-brown">
                       <span>Total</span>
-                      <span>{total.toFixed(2)} FCFA</span>
+                      <span>{(Number(total) || 0).toFixed(2)} FCFA</span>
                     </div>
                   </div>
                 </div>

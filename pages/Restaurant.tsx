@@ -396,15 +396,15 @@ const Restaurant: React.FC = () => {
                 <div className="bg-white p-8 rounded-2xl shadow-lg">
                   <h3 className="text-xl font-bold text-brown mb-4">Déjeuner</h3>
                   <div className="space-y-2 text-gray-600">
-                    <div>Lundi - Jeudi: 11h30 - 15h00</div>
-                    <div>Vendredi - Dimanche: 12h00 - 16h00</div>
+                    <div>Lundi - Mardi - Mercredi - Jeudi: 07h00 - 12h00</div>
+                    <div>Vendredi -Samedi - Dimanche: 07h00 - 12h00</div>
                   </div>
                 </div>
                 <div className="bg-white p-8 rounded-2xl shadow-lg">
                   <h3 className="text-xl font-bold text-brown mb-4">Dîner</h3>
                   <div className="space-y-2 text-gray-600">
-                    <div>Lundi - Jeudi: 18h30 - 23h00</div>
-                    <div>Vendredi - Dimanche: 19h00 - 00h00</div>
+                    <div>Lundi - Mardi - Mercredi - Jeudi: 18h30 - 23h00</div>
+                    <div>Vendredi - Samedi - Dimanche: 18h00 - 00h00</div>
                   </div>
                 </div>
               </div>
